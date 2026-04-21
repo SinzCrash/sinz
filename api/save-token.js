@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
   const OWNER = "SinzCrash";
   const REPO = "sinz";
-  const PATH = "tokens.json";
+  const PATH = "database.json";
 
   // ambil file lama
   const getFile = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`, {
