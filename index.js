@@ -3227,7 +3227,7 @@ bot.command('promoteesy', async (ctx) => {
 });
 ///update
 const filePath = path.resolve(__dirname, "main.js");
-const repoRaw = "https://raw.githubusercontent.com/vinxz-dev/vinxzcrash/refs/heads/main/index.js";
+const repoRaw = "https://raw.githubusercontent.com/SinzCrash/sinz/refs/heads/main/index.js";
 
 bot.command('update', async (ctx) => {
   if ((ctx.from.id != ownerID)) return ctx.reply("Lu Siapa Kontol Jijik Gwa");
