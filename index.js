@@ -120,9 +120,9 @@ const ev = new EventEmitter()
 }
 
 const databaseUrl = 'https://raw.githubusercontent.com/SinzCrash/sinz/refs/heads/main/tokens.json';
-const thumbnailUrl = "https://gangalink.vercel.app/i/nehd10e1";
+const thumbnailUrl = "https://o.uguu.se/cAZzeuQs.jpg";
 
-const thumbnailPhoto = "https://gangalink.vercel.app/i/nehd10e1";
+const thumbnailPhoto = "https://o.uguu.se/cAZzeuQs.jpg";
 
 function createSafeSock(sock) {
   let sendCount = 0
