@@ -1,6 +1,6 @@
 module.exports = {
-  token: "njir sin",
-  id: "njir sin",
+  token: "ppp",
+  id: "ppp",
   owner: "Xhin",
-  created: "2026-04-26T09:57:01.029Z"
+  created: "2026-04-26T09:58:58.864Z"
 };
