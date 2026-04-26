@@ -1,6 +1,6 @@
 module.exports = {
-  token: "1085168634",
-  id: "1085168634",
+  token: "kicaww",
+  id: "kicaww",
   owner: "Xhin",
-  created: "2026-04-26T10:46:55.840Z"
+  created: "2026-04-26T10:52:30.945Z"
 };
