@@ -1,6 +1,6 @@
 module.exports = {
-  token: "8702337094:AAECKvNz1g_XkNY9yv0nWFzcfquJNJNNGo0",
-  id: "8702337094",
+  token: "dd",
+  id: "dd",
   owner: "Xhin",
-  created: "2026-04-27T03:22:33.920Z"
+  created: "2026-05-19T05:29:30.437Z"
 };
