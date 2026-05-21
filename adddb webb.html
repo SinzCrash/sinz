@@ -1,0 +1,3019 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Add DataBase - Ozanne Infinite</title>
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --danger: #dc2626;
+        --success: #16a34a;
+        --warning: #d97706;
+        --dark: #1e293b;
+        --light: #f8fafc;
+        --gray: #64748b;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: var(--light);
+        min-height: 100vh;
+        overflow-x: hidden; /* Prevent horizontal scroll on body */
+        overflow-y: hidden;
+    }
+
+   body.dashboard-active {
+       overflow-y: auto;
+   }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+    }
+.login-container {
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+#usersPage ::-webkit-scrollbar {
+    height: 0px;
+}
+
+#usersPage {
+    scrollbar-width: none;
+}
+
+td .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    /* HAPUS SEMUA MARGIN TOP YANG ADA */
+    margin: 0 auto; /* Ini doang */
+    z-index: 10;
+}
+
+/* ============ VIDEO BACKGROUND FIX ============ */
+.video-bg-container {
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    height: 220px;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    margin: 0;
+    background: #000;
+    /* HAPUS left:50% dan transform translateX */
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    filter: brightness(1.1);
+}
+    
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .login-header h1 {
+        font-size: 2rem;
+        background: linear-gradient(90deg, var(--primary), #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: var(--light);
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        border: 1px solid transparent;
+    }
+    
+    .btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+    
+    .btn-block {
+        width: 100%;
+    }
+    
+    .btn-success { background: var(--success); }
+    .btn-danger { background: var(--danger); }
+    .btn-warning { background: var(--warning); }
+    .btn-gray { background: var(--gray); }
+    
+    /* Dashboard */
+    
+/* ===== FLOATING NAVBAR ===== */
+.nav-tabs {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 90%;
+    max-width: 400px;
+
+    padding: 10px;
+
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+
+    border-radius: 999px; /* FULL BULAT */
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35); /* SHADOW TIPIS */
+
+    z-index: 999;
+}
+
+.nav-tab {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    border-radius: 50%; /* BUAT BULAT */
+
+    color: #9ca3af;
+    font-size: 10px;
+
+    transition: all 0.25s ease;
+}
+
+.nav-tab i {
+    font-size: 20px;
+    margin-bottom: 3px;
+}
+
+/* SAAT DITEKAN */
+.nav-tab:active {
+    transform: scale(0.9);
+    color: #38bdf8;
+}
+
+.nav-tab.active {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+
+    transform: translateY(-8px);
+
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25);
+}
+
+.nav-tab.active::before {
+    content: "";
+    position: absolute;
+
+    width: 60px;
+    height: 60px;
+
+    background: radial-gradient(
+        circle,
+        rgba(56,189,248,0.25) 0%,
+        transparent 70%
+    );
+
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.nav-tab span {
+    font-size: 9px;
+    margin-top: 2px;
+}
+
+    
+    .nav-tab.hidden {
+        display: none !important;
+    }
+    
+    /* Content */
+    .page-content {
+        display: none;
+        width: 100%;
+        opacity: 0;
+        transition: 0.3s;
+        overflow-x: hidden;
+        animation: fade 0.3s ease;
+        padding-bottom: 80px; /* penting */
+    }
+    
+    .page-content.active {
+        display: block;
+        opacity: 1;
+        position: relative;
+        z-index: 1;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    /* Cards */
+    .card {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    @keyframes fade {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+    
+/* GRID */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* CARD */
+.stat-card {
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.08); /* 🔥 lebih terang */
+    border-radius: 15px;
+    padding: 16px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+    text-align: center;
+}
+
+/* GLOW EFFECT */
+.stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: radial-gradient(
+        circle at top left,
+        rgba(255,255,255,0.2),
+        transparent 60%
+    );
+
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+/* HOVER (NAIK HALUS, TANPA SCALE) */
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* ACTIVE (TEKAN, TANPA LARI) */
+.stat-card:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.05);
+}
+
+/* TEXT */
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+
+    background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+/* WRAPPER */
+.stats-wrapper {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 15px;
+
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* TITLE */
+.stats-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+    
+    /* Tables - MOBILE FIXED */
+    .table-container {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        position: relative;
+    }
+    
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 100%; /* Minimum width for horizontal scroll on mobile */
+    }
+    
+    .table th {
+        text-align: left;
+        padding: 15px 20px;
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--gray);
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    
+    .table td {
+        padding: 15px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        white-space: nowrap;
+    }
+   
+    
+    /* Badges */
+    .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    
+    .badge-owner { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+    .badge-admin { background: rgba(220, 38, 38, 0.2); color: var(--danger); }
+    .badge-reseller { background: rgba(22, 163, 74, 0.2); color: var(--success); }
+    .badge-moderator { background: rgba(217, 119, 6, 0.2); color: var(--warning); }
+    .badge-active { background: rgba(22, 163, 74, 0.2); color: var(--success); }
+    .badge-inactive { background: rgba(100, 116, 139, 0.2); color: var(--gray); }
+    .badge-expired { background: rgba(220, 38, 38, 0.2); color: var(--danger); }
+    .badge-permanent { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+    
+    /* Modal */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+    }
+    
+    .modal.active {
+        display: flex;
+    }
+    
+    .modal-content {
+        background: rgba(30, 41, 59, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 25px;
+        width: 100%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+    
+    /* Responsive Design - MOBILE FIRST */
+    @media (max-width: 768px) {
+        body {
+            padding: 10px;
+        }
+        
+        .header {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            width: 100%;
+        }
+        
+        .user-info {
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-card {
+            padding: 15px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+        }
+        
+        .card {
+            padding: 20px;
+        }
+        
+        /* Table improvements for mobile */
+        .table-container {
+            border-radius: 10px;
+            margin: 0 -10px;
+            width: calc(100% + 20px);
+        }
+        
+        .table {
+            min-width: 700px; /* Slightly wider for better mobile view */
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+        
+        /* Make delete button larger on mobile */
+        .table td:last-child button {
+            padding: 8px 12px !important;
+            font-size: 0.85rem !important;
+            min-width: 60px;
+        }
+        
+        /* Modal improvements */
+        .modal-content {
+            padding: 20px;
+            margin: 10px;
+        }
+        
+        /* Stack buttons vertically in modals on mobile */
+        .modal-content > div:last-child {
+            flex-direction: column;
+        }
+        
+        .modal-content .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        /* Form improvements */
+        .form-control {
+            padding: 10px 12px;
+            font-size: 0.95rem;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            font-size: 0.95rem;
+        }
+    }
+    
+    /* Extra small phones */
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+        }
+        
+        .nav-tab {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .table th,
+        .table td {
+            padding: 10px 12px;
+            font-size: 0.85rem;
+        }
+        
+        .badge {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+        }
+        
+        /* Even larger delete button for small phones */
+        .table td:last-child button {
+            padding: 10px 15px !important;
+            font-size: 0.9rem !important;
+            min-width: 70px;
+        }
+        
+        .table td:last-child button i {
+            margin-right: 5px;
+        }
+    }
+    
+    /* Landscape mode for phones */
+    @media (max-width: 768px) and (orientation: landscape) {
+        .login-container {
+            min-height: 100vh;
+            padding: 20px;
+        }
+    }
+        
+        .table-container {
+            max-height: 60vh;
+        }
+    }
+    
+    .stat-label {
+      color: #fff; /* abu-abu */
+      font-weight: 700; /* bold */
+    }
+
+    .stat-value {
+      color: #2563eb;
+      font-weight: 700; /* bold */
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateX(0); }
+        to { opacity: 0; transform: translateX(100%); }
+    }
+    
+.table-container {
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+.table-container::-webkit-scrollbar {
+    display: none; /* Chrome, Edge, Safari */
+}
+/* ============ VIDEO BACKGROUND CONTAINER ============ */
+.video-bg-container {
+    width: 100%;
+    height: 220px;
+    margin: 0;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* VIDEO ELEMENT - HARUS LANGSUNG PLAY */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    /* Tambahkan brightness untuk memperterang */
+    filter: brightness(1.1);
+}
+
+/* OVERLAY UNTUK BACAAN - KURANGI KEGELAPAN */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.7) 0%,     /* Kurangi opacity dari 0.85 ke 0.7 */
+        rgba(30, 41, 59, 0.4) 50%,    /* Kurangi opacity dari 0.6 ke 0.4 */
+        rgba(30, 41, 59, 0.9) 100%    /* Kurangi opacity dari 0.95 ke 0.9 */
+    );
+    z-index: 2;
+}
+
+        /* Tampilan Header (Teks dan Ikon) */
+        .app-header {
+            width: 100vw;
+            padding: 15px 20px;
+            display: flex;
+            height: 55px;
+            justify-content: space-between;
+            transform: translateX(-10px); /* 🔥 geser ke kiri */
+            align-items: center;
+            background-color: #000;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .header-icon {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        .profile-icon {
+            color: var(--primary-purple); /* 🌟 Ungu */
+            text-shadow: 0 0 5px var(--primary-purple); /* 🌟 Ungu */
+        }
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .video-bg-container {
+        width: 100vw;
+        height: 180px;
+        margin: -25px calc(-50vw + 50%) 0 calc(-50vw + 50%);
+        border-radius: 0; /* Hilangkan border radius di mobile untuk full width */
+    }
+  }
+
+@media (max-width: 480px) {
+    .video-bg-container {
+        height: 160px;
+        margin: -20px calc(-50vw + 50%) 0 calc(-50vw + 50%);
+    }
+    
+    /* Kurangi overlay opacity lagi untuk mobile */
+    .video-overlay {
+        background: linear-gradient(
+            to bottom,
+            rgba(15, 23, 42, 0.6) 0%,
+            rgba(30, 41, 59, 0.3) 50%,
+            rgba(30, 41, 59, 0.85) 100%
+        );
+    }
+}
+
+/* CONTENT DI ATAS VIDEO */
+.video-content {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transform: translateX(-30px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 3;
+    padding: 20px;
+}
+
+.logo-container {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.video-logo {
+    font-size: 2rem;
+    color: white;
+}
+
+.video-title {
+    font-size: 2.2rem;
+    color: white;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+.video-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    max-width: 300px;
+    line-height: 1.4;
+}
+
+/* ============ VIDEO AUTOPLAY FIX ============ */
+/* Force browser untuk load dan play video */
+@supports (object-fit: cover) {
+    .video-background {
+        /* Important untuk bypass browser restrictions */
+        -webkit-autoplay: allowed !important;
+        autoplay: allowed !important;
+    }
+}
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .video-bg-container {
+        height: 180px;
+        margin: -25px -25px 0 -25px;
+        border-radius: 10px 10px 0 0;
+    }
+    
+    
+    .logo-container {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .video-logo {
+        font-size: 1.8rem;
+    }
+    
+    .video-title {
+        font-size: 1.8rem;
+    }
+    
+    .video-subtitle {
+        font-size: 0.85rem;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-bg-container {
+        height: 160px;
+        margin: -20px -20px 0 -20px;
+    }
+    
+    .login-card {
+        margin-top: 40px;
+        padding: 20px;
+    }
+    
+    .video-title {
+        font-size: 1.5rem;
+    }
+    
+    .logo-container {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+        transform: translateX(0px);
+    }
+    
+    .video-logo {
+        font-size: 1.5rem;
+    }
+}
+
+/* ============ LOADING STATE ============ */
+.video-bg-container.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    z-index: 4;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ============ PLAYBACK CONTROLS HIDDEN ============ */
+.video-background::-webkit-media-controls {
+    display: none !important;
+}
+
+.video-background::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+
+/* ============ LOGIN BODY ============ */
+.login-body {
+    padding: 30px;
+}
+
+.login-footer {
+    margin-top: 30px;
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* ============ PASSWORD WRAPPER ============ */
+.password-wrapper {
+    position: relative;
+}
+
+.btn-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+}
+
+.btn-eye:hover {
+    color: var(--primary);
+}
+
+#userRole {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .video-header {
+        height: 160px;
+    }
+    
+    .video-title h1 {
+        font-size: 1.6rem;
+    }
+    
+    .video-title p {
+        font-size: 0.8rem;
+    }
+    
+    .login-body {
+        padding: 25px 20px;
+    }
+    
+.header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 12px 16px;
+}
+}
+
+/* LEFT */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.default-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.header-user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+@keyframes gradientMove {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+.header-role {
+    margin-top: 2px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    width: fit-content;
+    letter-spacing: 0.6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #dbeafe;
+    text-shadow: 0 0 1px rgba(255,255,255,.25);
+}
+.header-role.owner {
+    background: rgba(139, 92, 246, 0.25);
+    color: #ffffff;
+}
+
+.header-role.admin {
+    background: rgba(220, 38, 38, 0.25);
+    color: #ffffff;
+}
+
+.header-role.reseller {
+    background: rgba(22, 163, 74, 0.25);
+    color: #ffffff;
+}
+
+.header-role.moderator {
+    background: rgba(217, 119, 6, 0.25);
+    color: #ffffff;
+}
+
+/* CENTER */
+.header-center {
+    text-align: center;
+}
+
+/* RIGHT */
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logout-btn {
+    background: #dc2626;
+    border: none;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.logout-btn i {
+    font-size: 0.85rem;
+}
+
+.header-username {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+
+    animation: gradientMove 6s linear infinite;
+
+    /* POSITION */
+    transform: translate(-8px, 2px);
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+/* Hide scrollbar but keep scroll */
+.table-responsive {
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+.table-responsive::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+.users-table {
+    width: 100%;
+    min-width: 700px; /* biar mobile scroll, tapi rapi */
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.table th:last-child,
+.table td:last-child {
+    text-align: center;
+    min-width: 120px;
+    background: transparent;
+}
+
+.users-table th:last-child,
+.users-table td:last-child {
+    text-align: center;
+    min-width: 120px;
+}
+.badge-expired,
+.badge-warning,
+.badge-permanent {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+/* JUDUL KOLOM (LEBIH TIPIS) */
+#usersPage table th {
+    font-size: 0.85rem;
+    font-weight: 700;          /* lebih tipis dari isi */
+    color: #ffffff;            /* putih keabu halus */
+    letter-spacing: 0.4px;
+}
+
+#usersPage table th {
+    font-size: 0.85rem;
+    font-weight: 600;   /* SEMI-BOLD */
+    color: #ffffff;
+    letter-spacing: 0.4px;
+}
+
+/* PAKSA SEMUA ANAK TD IKUT STYLE INI */
+#usersPage table td * {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+    opacity: 1 !important;
+}
+.education-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.education-track {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #e5e7eb;
+    animation: slideEducation 12s linear infinite;
+}
+
+/* Animasi kiri ke kanan */
+@keyframes slideEducation {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+/* LABEL (Username, Role, Status, dll) — LEBIH TEBAL */
+#accountSummary .summary-label {
+    font-size: 0.8rem;
+    font-weight: 700; /* PALING TEBAL */
+    color: #ffffff;
+}
+
+/* ISI (Rizzxtzyy, Owner, Active, Permanent) — LEBIH TIPIS */
+#accountSummary .summary-value {
+    font-size: 0.85rem;
+    font-weight: 500; /* LEBIH TIPIS dari label */
+    color: #e5e7eb;
+}
+
+.nav-tab.active::before {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(
+        circle,
+        rgba(56,189,248,0.35) 0%,
+        rgba(56,189,248,0.1) 60%,
+        transparent 80%
+    );
+    border-radius: 50%;
+    z-index: -1;
+}
+
+/* ===== BOTTOM NAVBAR ===== */
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+    max-width: 400px;
+
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 10px;
+
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+
+    border-radius: 999px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+
+    z-index: 999;
+}
+
+body.dashboard-active .bottom-nav {
+    display: flex;
+}
+
+/* ITEM */
+.bottom-item {
+    position: relative;
+    width: 60px;
+    height: 50px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #9ca3af;
+    font-size: 10px;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* ICON DEFAULT */
+.bottom-item i {
+    font-size: 22px;
+    color: #9ca3af;
+    transition: 0.25s;
+}
+
+/* TEXT DEFAULT (PUTIH SEMUA) */
+.bottom-item span {
+    font-size: 11px;
+    margin-top: 4px;
+    color: #ffffff; /* 🔥 selalu putih */
+    transition: 0.25s;
+}
+
+/* 🔥 ACTIVE (INI YANG KAYAK GAMBAR) */
+.bottom-item.active {
+    transform: translateY(-8px);
+}
+
+/* ICON JADI PUTIH + GLOW */
+.bottom-item.active i {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(56,189,248,0.8);
+}
+
+/* TEXT ADA SHADOW HALUS (BUKAN GANTI WARNA) */
+.bottom-item.active span {
+    color: #ffffff; /* tetap putih */
+    text-shadow: 0 0 6px rgba(56,189,248,0.6);
+}
+
+/* EFEK KLIK */
+.bottom-item:active {
+    transform: scale(0.92);
+}   
+
+.dashboard {
+    padding-bottom: 100px;
+}
+
+body.login-active {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: #0f172a;
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+.drawer.active {
+    left: 0;
+}
+
+.drawer-content {
+    padding: 20px;
+}
+
+/* PROFILE */
+.drawer-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: white;
+    
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+
+    position: relative;
+}
+
+.drawer-profile i {
+    font-size: 35px;
+}
+
+.drawer-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: white;
+
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+
+    border-bottom: 4px solid #fff;
+
+    margin-left: -20px;   /* 🔥 tarik ke kiri */
+    margin-right: -20px;  /* 🔥 tarik ke kanan */
+    padding-left: 20px;   /* 🔥 balikin isi biar rapi */
+    padding-right: 20px;
+}
+
+/* ITEM */
+.drawer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+}
+
+.drawer-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.drawer-item:hover i {
+    color: #38bdf8; /* biru biar matching UI lu */
+}
+
+.drawer-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    color: white;
+    padding-right: 20px;
+    position: relative;
+    height: 40px; /* kasih ruang atas */
+}
+
+.close-btn {
+    position: absolute;
+    top: -88px;
+    right: 18px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 9999; /* 🔥 biar ga ketimpa */
+}
+
+/* garis X */
+.close-btn span {
+    position: absolute;
+
+    width: 20px;   /* 🔥 agak panjang biar keliatan */
+    height: 3px;   /* 🔥 lebih tebel */
+
+    background: #ffffff;
+    border-radius: 2px;
+}
+
+/* garis 1 */
+.close-btn span:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+/* garis 2 */
+.close-btn span:nth-child(2) {
+    transform: rotate(-45deg);
+}
+
+/* HOVER EFFECT */
+.close-btn:hover {
+    color: #38bdf8;
+    transform: scale(1.1);
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    z-index: 999;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.bottom-nav {
+    display: none; /* default hidden */
+}
+
+body.dashboard-active .bottom-nav {
+    display: flex;
+}
+
+.logo-item {
+    transform: translateY(-25px);
+}
+
+.nav-logo {
+    width: 65px;
+    height: 65px;
+
+    background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 10px 25px rgba(56,189,248,0.5);
+    animation: pulse 2s infinite;
+}
+
+.nav-logo i {
+    font-size: 24px;
+    color: white;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(56,189,248,0.6); }
+    70% { box-shadow: 0 0 0 15px rgba(56,189,248,0); }
+    100% { box-shadow: 0 0 0 0 rgba(56,189,248,0); }
+}
+
+#dashboard {
+    position: relative;
+    overflow: hidden;  /* ini penting */
+}
+
+.page-content {
+    position: relative;
+    z-index: 2;
+    background: #0f172a;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.summary-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.summary-value {
+    font-size: 0.85rem;
+    color: #e5e7eb;
+}
+
+.summary-row {
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+    width: 100%;
+    transform: translateX(20px);
+}
+
+.summary-col {
+    flex: 1; /* 🔥 INI YANG PENTING */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    border-right: 1px solid rgba(255,255,255,0.1);
+    padding-right: 10px;
+}
+
+.summary-col:last-child {
+    border-right: none;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.summary-grid, 
+.summary-row {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#dashboardPage {
+    padding-top: 40px; /* 🔥 sesuaikan tinggi header */
+}
+</style>
+</head>
+<div id="overlay" class="overlay" onclick="closeDrawer()"></div>
+<div id="drawer" class="drawer">
+    <div class="drawer-content">
+
+        <!-- PROFILE -->
+        <div class="drawer-profile">
+            <i class="fas fa-user-circle"></i>
+            <div>
+                <div id="drawerUsername">Username</div>
+                <small id="drawerRole">Role</small>
+            </div>
+        </div>
+        
+           <!-- tombol close -->
+<div class="close-btn" onclick="closeDrawer()">
+    <span></span>
+    <span></span>
+</div>
+
+        <!-- MENU -->
+        <div class="drawer-item" onclick="logoutUser()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </div>
+        
+<div class="drawer-item" onclick="handleChangePassword()">
+    <i class="fas fa-key"></i>
+    <span>Change Password</span>
+</div>
+
+<div class="drawer-item" onclick="openCustomerService()">
+    <i class="fas fa-headset"></i>
+    <span>Customer Service</span>
+</div>
+
+    </div>
+</div>
+  <body class="login-active">
+   <div id="loginPage" class="login-container">
+    <div class="login-card">
+        <!-- VIDEO BACKGROUND SECTION -->
+        <div class="video-bg-container">
+            <video autoplay loop muted playsinline class="video-background" id="loginVideo" preload="auto" poster="https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1000">
+                <source src="https://files.catbox.moe/w776ej.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            
+            <!-- TITLE DI ATAS VIDEO -->
+            <div class="video-content">
+                <div class="logo-container">
+                    <i class="fas fa-robot video-logo"></i>
+                </div>
+                <h2 id="welcomeText">Welcome - Someone</h2>
+                <p class="video-subtitle">Add DataBase - Security Ozanne</p>
+            </div>
+        </div>
+        
+        <!-- LOGIN FORM -->
+        <div class="login-body">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username :</label>
+                    <input type="text" id="username" class="form-control" placeholder="Username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password :</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" class="form-control" placeholder="Password" required>
+                        <button type="button" class="btn-eye" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- LOGIN BUTTON -->
+                <button type="submit" class="btn btn-block">
+                    <i class="fas fa-sign-in-alt"></i> - Login
+                </button>
+
+                <!-- REVELADOR BUTTON -->
+                <a href="https://t.me/rizzxtzyy"
+                   target="_blank"
+                   class="btn btn-block"
+                   role="button"
+                   style="margin-top:10px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class="fas fa-paper-plane"></i>- jir rizz
+                </a>
+            </form>
+            
+            <div id="loginMessage" style="margin-top: 20px; text-align: center; min-height: 30px;"></div>
+
+            <div class="login-footer">
+                <p>this website is only for add database.</p>
+                <p>thank you for supporting Ozanne.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dashboard (Hidden by default) -->
+        <div class="app-header">
+            <i class="fas fa-bars header-icon" onclick="openDrawer()"></i>
+            <span class="header-title">DataBase - OzanneJs</span>
+            <i class="fas fa-user-circle header-icon profile-icon" onclick="showAccountInfo()"></i>
+        </div>
+
+<div id="dashboard" style="display:none;">
+<div class="bottom-nav">
+  <div class="bottom-item active" data-page="dashboardPage">
+    <i class="fas fa-gauge"></i>
+    <span>Dashboard</span>
+  </div>
+
+  <div class="bottom-item" data-page="tokensPage">
+    <i class="fas fa-coins"></i>
+    <span>Tokens</span>
+  </div>
+
+  <div class="bottom-item" data-page="usersPage">
+    <i class="fas fa-users"></i>
+    <span>Users</span>
+  </div>
+
+  <div class="bottom-item" data-page="profilePage">
+    <i class="fas fa-user"></i>
+    <span>Profile</span>
+  </div>
+
+</div>
+
+  <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="page-content active">
+<div id="walletView" class="content-area active">
+    <div class="kinong-banner">
+        <video autoplay muted loop playsinline
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
+            <source src="https://files.catbox.moe/145kgj.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+        <div class="header-center"></div>
+
+        <div class="stats-wrapper">
+            <div class="stats-title">
+                <i class="fas fa-chart-bar"></i> - Account Statistics
+            </div>
+
+            <div class="stats-grid stats-grid-2x2">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTokens">0</div>
+                    <div class="stat-label">Total Tokens</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-value" id="activeTokens">0</div>
+                    <div class="stat-label">Active Tokens</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-value" id="totalUsers">1</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-value" id="expiredUsers">0</div>
+                    <div class="stat-label">Expired Users</div>
+                </div>
+            </div>
+        </div>
+        
+<div class="card">
+   <div class="stats-title">
+      <i class="fas fa-user-circle"></i> - Account Summary
+   </div>
+
+   <div class="summary-row">
+       
+       <!-- KIRI -->
+       <div class="summary-col">
+           <div class="summary-item">
+               <div class="summary-label">Username :</div>
+               <div id="summaryUsername" class="summary-value"></div>
+           </div>
+
+           <div class="summary-item">
+               <div class="summary-label">Role :</div>
+               <div id="summaryRole" class="summary-value"></div>
+           </div>
+       </div>
+
+       <!-- KANAN -->
+       <div class="summary-col">
+           <div class="summary-item">
+               <div class="summary-label">Status :</div>
+               <div id="summaryStatus" class="summary-value"></div>
+           </div>
+
+           <div class="summary-item">
+               <div class="summary-label">Expired :</div>
+               <div id="summaryExpired" class="summary-value"></div>
+           </div>
+       </div>
+
+   </div>
+</div>
+
+        <div class="card">
+            <h3 class="stats-title">
+    <i class="fas fa-history"></i> - Recent Users
+</h3>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Expires In</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentUsers"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+        <!-- Page Content -->     
+            <!-- Tokens Page -->
+            <div id="tokensPage" class="page-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fas fa-coins"></i> – Manage Tokens</h2>
+    <button class="btn btn-success" onclick="showModal('addTokenModal')">
+        <i class="fas fa-plus"></i> Add Token
+    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Bot Name</th>
+                                <th>Token (First 10 chars)</th>
+                                <th>Status</th>
+                                <th>Created By</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tokensTable">
+                            <!-- Tokens will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+            
+            <!-- Users Page -->
+            <div id="usersPage" class="page-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fas fa-users"></i> – Manage Users :</h2>
+                    <button class="btn btn-success" onclick="showModal('addUserModal')" id="addUserBtn">
+                        <i class="fas fa-user-plus"></i> Add Users
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username :</th>
+                                <th>Role :</th>
+                                <th>Expiration :</th>
+                                <th>Status :</th>
+                                <th>Created :</th>
+                                <th>Actions :</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+            
+            <!-- Profile Page -->
+            <div id="profilePage" class="page-content">
+                <div class="card">
+                    <h2 style="margin-bottom: 20px;"><i class="fas fa-user-circle"></i> – My Profile</h2>
+                    
+                    <div class="form-group">
+                        <label>- Username :</label>
+                        <div class="form-control" style="background: rgba(255,255,255,0.05);">
+                            <span id="profileUsername">owner</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>‐ Role :</label>
+                        <div class="form-control" style="background: rgba(255,255,255,0.05);">
+                            <span class="badge" id="profileRole">owner</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>- Status Account :</label>
+                        <div class="form-control" style="background: rgba(255,255,255,0.05);">
+                            <span class="badge badge-permanent" id="profileStatus">Permanent</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>- Expired Account :</label>
+                        <div class="form-control" style="background: rgba(255,255,255,0.05);">
+                            <span id="profileExpiry">Never</span>
+                        </div>
+                    </div>
+                    
+                    <form id="linkTelegramForm" style="margin-top: 20px;">
+                        <div class="form-group">
+                            <label for="telegramIdInput">Telegram ID ( Optional ) :</label>
+                            <input type="text" id="telegramIdInput" class="form-control" placeholder="Numbers ID...">
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-link"></i> Update Telegram ID
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- Modals -->
+    <!-- Add Token Modal -->
+    <div class="modal" id="addTokenModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;"><i class="fas fa-plus-circle"></i> Add Bot Token</h2>
+            <form id="addTokenForm">
+                <div class="form-group">
+                    <label for="tokenInput">Bot Token</label>
+                    <input type="text" id="tokenInput" class="form-control" required 
+                           placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz">
+                </div>
+                
+                <div class="form-group">
+                    <label for="botNameInput">Bot Name</label>
+                    <input type="text" id="botNameInput" class="form-control" required 
+                           placeholder="My Awesome Bot">
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-save"></i> Save Token
+                    </button>
+                    <button type="button" class="btn btn-gray" onclick="closeModal('addTokenModal')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;"><i class="fas fa-user-plus"></i> Add New User</h2>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="newUsername">Username</label>
+                    <input type="text" id="newUsername" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" id="newPassword" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newRole">Role</label>
+                    <select id="newRole" class="form-control" required>
+                        <!-- Options will be filled by JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expiryType">Account Duration</label>
+                    <select id="expiryType" class="form-control" required>
+                        <option value="1_day">1 Hari</option>
+                        <option value="1_week">1 Minggu</option>
+                        <option value="2_weeks">2 Minggu</option>
+                        <option value="3_weeks">3 Minggu</option>
+                        <option value="1_month">1 Bulan</option>
+                        <option value="2_months">2 Bulan</option>
+                        <option value="3_months">3 Bulan</option>
+                        <option value="6_months">6 Bulan</option>
+                        <option value="1_year">1 Tahun</option>
+                        <option value="permanent" selected>Permanent</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newTelegramId">Telegram ID (Optional)</label>
+                    <input type="text" id="newTelegramId" class="form-control" placeholder="123456789">
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-user-plus"></i> Create User
+                    </button>
+                    <button type="button" class="btn btn-gray" onclick="closeModal('addUserModal')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px; color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h2>
+            <p id="deleteMessage" style="margin-bottom: 20px;">Are you sure you want to delete this item?</p>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-danger" id="confirmDeleteBtn">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+                <button class="btn btn-gray" onclick="closeModal('deleteModal')">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="changePasswordModal">
+    <div class="modal-content">
+        <h2><i class="fas fa-key"></i> - Change Password</h2>
+
+        <form id="changePasswordForm">
+            <div class="form-group">
+                <label>Old Password</label>
+                <input type="password" id="oldPassword" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" id="newPassword" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" required>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button type="submit" class="btn">
+                    Save
+                </button>
+                <button type="button" class="btn btn-gray" onclick="closeModal('changePasswordModal')">
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+        <div id="changePasswordMsg" style="margin-top:10px;"></div>
+    </div>
+</div>
+    
+    <!-- Notification Container -->
+    <div id="notificationContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+    
+    <!-- Font Awesome (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+let isLoggingIn = false;
+document.addEventListener("DOMContentLoaded", () => {
+    const bottomItems = document.querySelectorAll('.bottom-item');
+    const pages = document.querySelectorAll('.page-content');
+
+    // ✅ AUTO LOGIN
+    const savedUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (savedUser) {
+        const dbUser = db.getUserByUsername(savedUser.username);
+
+        // 🔥 CEK SESSION (INI YANG PENTING)
+if (!dbUser) {
+    localStorage.removeItem("currentUser");
+    location.reload();
+    return;
+}
+
+        currentUser = dbUser;
+
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+
+        document.body.classList.remove("login-active");
+        document.body.classList.add("dashboard-active");
+        document.body.style.overflow = "auto";
+
+        loadDashboard();
+        updateHeaderUsername();
+        updateNavigation();
+        loadProfile();
+
+        document.getElementById("drawerUsername").textContent = currentUser.username;
+        document.getElementById("drawerRole").textContent = currentUser.role;
+    }
+
+    // ✅ NAVIGASI
+    bottomItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            bottomItems.forEach(i => i.classList.remove('active'));
+            pages.forEach(p => p.classList.remove('active'));
+
+            item.classList.add('active');
+            if (pages[index]) pages[index].classList.add('active');
+        });
+    });
+});
+
+        // ==================== DATABASE (LOCALSTORAGE) ====================
+        class Database {
+            constructor() {
+                this.init();
+            }
+                                
+init() {
+    if (!localStorage.getItem('botManagerUsers')) {
+        const defaultOwner = {
+            id: 'user_1',
+            username: '1',
+            password: '1',
+            role: 'owner',
+            telegramId: null,
+            createdBy: null,
+            createdAt: new Date().toISOString(),
+            expiresAt: null,
+            status: 'active'
+        };
+        localStorage.setItem('botManagerUsers', JSON.stringify([defaultOwner]));
+    }
+    if (!localStorage.getItem('botManagerTokens')) {
+        localStorage.setItem('botManagerTokens', JSON.stringify([]));
+    }
+    if (!localStorage.getItem('botManagerCurrentUser')) {
+        localStorage.setItem('botManagerCurrentUser', JSON.stringify(null));
+    }
+}
+            
+            getUsers() {
+                const users = JSON.parse(localStorage.getItem('botManagerUsers') || '[]');
+                // Auto-check expiration
+                const now = new Date();
+                return users.map(user => {
+                    if (user.expiresAt && new Date(user.expiresAt) < now && user.status !== 'expired') {
+                        user.status = 'expired';
+                    }
+                    return user;
+                });
+            }
+            
+            saveUsers(users) {
+                localStorage.setItem('botManagerUsers', JSON.stringify(users));
+            }
+            
+            getUserById(id) {
+                const users = this.getUsers();
+                return users.find(user => user.id === id);
+            }
+            
+            getUserByUsername(username) {
+                const users = this.getUsers();
+                return users.find(user => user.username === username);
+            }
+            
+addUser(userData) {
+    const users = this.getUsers();
+
+    const newUser = {
+        id: 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+        ...userData,
+        createdAt: new Date().toISOString(),
+        status: 'active'
+    };
+
+    users.push(newUser);
+    this.saveUsers(users);
+    return newUser;
+}
+            
+            updateUser(userId, updates) {
+                const users = this.getUsers();
+                const index = users.findIndex(u => u.id === userId);
+                if (index !== -1) {
+                    users[index] = { ...users[index], ...updates };
+                    this.saveUsers(users);
+                    return users[index];
+                }
+                return null;
+            }
+            
+            deleteUser(userId) {
+                const users = this.getUsers();
+                const filteredUsers = users.filter(u => u.id !== userId);
+                this.saveUsers(filteredUsers);
+                return true;
+            }
+            
+            getTokens() {
+                return JSON.parse(localStorage.getItem('botManagerTokens') || '[]');
+            }
+            
+            addToken(tokenData) {
+                const tokens = this.getTokens();
+                const newToken = {
+                    id: 'token_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                    ...tokenData,
+                    createdAt: new Date().toISOString(),
+                    status: 'active'
+                };
+                tokens.push(newToken);
+                localStorage.setItem('botManagerTokens', JSON.stringify(tokens));
+                return newToken;
+            }
+            
+            deleteToken(tokenId) {
+                const tokens = this.getTokens();
+                const filteredTokens = tokens.filter(t => t.id !== tokenId);
+                localStorage.setItem('botManagerTokens', JSON.stringify(filteredTokens));
+                return true;
+            }
+            
+            setCurrentUser(user) {
+                localStorage.setItem('botManagerCurrentUser', JSON.stringify(user));
+            }
+            
+            getCurrentUser() {
+                return JSON.parse(localStorage.getItem('botManagerCurrentUser') || 'null');
+            }
+            
+            clearCurrentUser() {
+                localStorage.setItem('botManagerCurrentUser', JSON.stringify(null));
+            }
+        }
+        
+        // ==================== UTILITY FUNCTIONS ====================
+        function calculateExpiryDate(expiryType) {
+            const now = new Date();
+            
+            switch(expiryType) {
+                case '1_day':
+                    return new Date(now.setDate(now.getDate() + 1));
+                case '1_week':
+                    return new Date(now.setDate(now.getDate() + 7));
+                case '2_weeks':
+                    return new Date(now.setDate(now.getDate() + 14));
+                case '3_weeks':
+                    return new Date(now.setDate(now.getDate() + 21));
+                case '1_month':
+                    return new Date(now.setMonth(now.getMonth() + 1));
+                case '2_months':
+                    return new Date(now.setMonth(now.getMonth() + 2));
+                case '3_months':
+                    return new Date(now.setMonth(now.getMonth() + 3));
+                case '6_months':
+                    return new Date(now.setMonth(now.getMonth() + 6));
+                case '1_year':
+                    return new Date(now.setFullYear(now.getFullYear() + 1));
+                case 'permanent':
+                default:
+                    return null;
+            }
+        }
+        
+        function formatTimeRemaining(expiresAt) {
+            if (!expiresAt) return 'Permanent';
+            
+            const now = new Date();
+            const expiry = new Date(expiresAt);
+            
+            if (expiry < now) return 'Expired';
+            
+            const diff = expiry - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            if (days > 0) {
+                return `${days} day${days > 1 ? 's' : ''} ${hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : ''}`;
+            } else {
+                return `${hours} hour${hours > 1 ? 's' : ''}`;
+            }
+        }
+        
+        function showNotification(message, type = 'info') {
+            const colors = {
+                success: '#16a34a',
+                error: '#dc2626',
+                warning: '#d97706',
+                info: '#2563eb'
+            };
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                background: ${colors[type]};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                animation: fadeIn 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                max-width: 400px;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i>
+                <span>${message}</span>
+            `;
+            
+            document.getElementById('notificationContainer').appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        function showModal(modalId) {
+            if (modalId === 'addUserModal') {
+                updateRoleOptions();
+            }
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+function updateHeaderUsername() {
+    if (!currentUser) return;
+
+    const headerUsername = document.getElementById("headerUsername");
+    const headerAvatar   = document.getElementById("headerAvatar");
+    const userRoleEl     = document.getElementById("userRole");
+
+    if (!headerUsername || !userRoleEl) return;
+
+    headerUsername.textContent = currentUser.username;
+    userRoleEl.className = `header-role ${currentUser.role}`;
+    userRoleEl.textContent = capitalizeRole(currentUser.role);
+
+    if (headerAvatar) {
+        headerAvatar.src = currentUser.avatar || "https://files.catbox.moe/wt0u2y.jpeg";
+    }
+}
+function updateRoleOptions() {
+    const roleSelect = document.getElementById('newRole');
+    if (!roleSelect || !currentUser) return;
+
+    const roleMap = {
+        owner: [
+            { value: 'owner', label: 'Owner' },
+            { value: 'mod', label: 'Moderator' },            
+            { value: 'admin', label: 'Admin' },
+            { value: 'reseller', label: 'Reseller' }
+        ],
+        mod: [
+            { value: 'admin', label: 'Admin' },
+            { value: 'reseller', label: 'Reseller' }
+        ],
+        admin: [
+            { value: 'reseller', label: 'Reseller' }
+        ]
+        // reseller: tidak boleh buat user
+    };
+
+    const roles = roleMap[currentUser.role.toLowerCase()] || [];
+    roleSelect.innerHTML = '';
+
+    roles.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.value;
+        opt.textContent = r.label;
+        roleSelect.appendChild(opt);
+    });
+}
+        
+function updateNavigation() {
+    if (!currentUser) return;
+
+    const usersTab = document.querySelector('.bottom-item[data-page="usersPage"]');
+    const addUserBtn = document.getElementById('addUserBtn');
+
+    if (currentUser.role === 'reseller') {
+        usersTab?.classList.add('hidden');
+        addUserBtn?.classList.add('hidden');
+
+        // 🔥 pindahin ke dashboard kalau lagi di users
+        if (document.getElementById('usersPage').classList.contains('active')) {
+            document.querySelector('.bottom-item[data-page="dashboardPage"]').click();
+        }
+
+    } else {
+        usersTab?.classList.remove('hidden');
+        addUserBtn?.classList.remove('hidden');
+    }
+}
+        
+        // ==================== PAGE LOADERS ====================
+        function loadDashboard() {
+            const tokens = db.getTokens();
+            const users = db.getUsers();
+            const now = new Date();
+            updateAccountSummary();
+            
+            // Update stats
+            document.getElementById('totalTokens').textContent = tokens.length;
+            document.getElementById('activeTokens').textContent = tokens.filter(t => t.status === 'active').length;
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('expiredUsers').textContent = users.filter(u => u.status === 'expired').length;
+            
+            // Recent users
+            const recentUsersBody = document.getElementById('recentUsers');
+            recentUsersBody.innerHTML = '';
+            
+            const recentUsers = users.slice(-5).reverse();
+            if (recentUsers.length === 0) {
+                recentUsersBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px; color: var(--gray);">
+                            No users yet
+                        </td>
+                    </tr>
+                `;
+            } else {
+                recentUsers.forEach(user => {
+                    const expiresIn = formatTimeRemaining(user.expiresAt);
+                    const status = user.status === 'expired' ? 'badge-expired' : 
+                                  user.expiresAt ? 'badge-warning' : 'badge-permanent';
+                    const statusText = user.status === 'expired' ? 'Expired' : 
+                                      user.expiresAt ? expiresIn : 'Permanent';
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.username}</td>
+                        <td>
+  <span class="badge badge-${user.role}">
+    ${capitalizeRole(user.role)}
+  </span>
+</td>
+                        <td>${expiresIn}</td>
+                        <td><span class="badge ${status}">${statusText}</span></td>
+                    `;
+                    recentUsersBody.appendChild(row);
+                });
+            }
+        }
+        
+                function canDeleteUser(targetUser) {
+    if (!currentUser) return false;
+
+    if (currentUser.role === 'owner') return true;
+
+    if (currentUser.role === 'admin') {
+        return targetUser.role !== 'owner' && targetUser.role !== 'mod';
+    }
+
+    if (currentUser.role === 'mod') {
+        return targetUser.role !== 'owner';
+    }
+
+    return false; // reseller
+}
+        
+        function loadTokens() {
+            let tokens = db.getTokens();
+            
+            // Permission filter
+            if (currentUser.role === 'owner' || currentUser.role === 'admin') {
+                // Owner/Admin bisa lihat semua
+            } else if (currentUser.role === 'reseller') {
+                tokens = tokens.filter(t => t.assignedTo === currentUser.id);
+            } else if (currentUser.role === 'mod') {
+                tokens = tokens.filter(t => t.createdBy === currentUser.id);
+            }
+            
+            const tokensBody = document.getElementById('tokensTable');
+            tokensBody.innerHTML = '';
+            
+            if (tokens.length === 0) {
+                tokensBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-key" style="font-size: 3rem; color: var(--gray);"></i>
+                            <p style="margin-top: 10px;">No tokens found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tokens.forEach(token => {
+                const creator = db.getUserById(token.createdBy);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${token.botName}</td>
+                    <td><code>${token.token.substring(0, 10)}...</code></td>
+                    <td><span class="badge badge-${token.status}">${token.status}</span></td>
+                    <td>${creator ? creator.username : 'Unknown'}</td>
+<td>
+    ${canDeleteToken(token) ? `
+    <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" 
+            onclick="showDeleteModal('token', '${token.id}', '${token.botName}')">
+        <i class="fas fa-trash"></i>
+    </button>
+    ` : '<span style="color: var(--gray);">No action</span>'}
+</td>
+                `;
+                tokensBody.appendChild(row);
+            });
+        }
+        
+
+        
+        function loadUsers() {
+            let users = db.getUsers();
+            
+            // Filter based on role
+            if (currentUser.role === 'admin') {
+                users = users.filter(u => u.role !== 'owner');
+            } else if (currentUser.role === 'reseller' || currentUser.role === 'mod') {
+                users = users.filter(u => u.createdBy === currentUser.id);
+            }
+            
+            const usersBody = document.getElementById('usersTable');
+            usersBody.innerHTML = '';
+            
+            if (users.length === 0) {
+                usersBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-users" style="font-size: 3rem; color: var(--gray);"></i>
+                            <p style="margin-top: 10px;">No users found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            users.forEach(user => {
+                const creator = db.getUserById(user.createdBy);
+                const expiresIn = formatTimeRemaining(user.expiresAt);
+                const status = user.status === 'expired' ? 'badge-expired' : 
+                              user.expiresAt ? 'badge-warning' : 'badge-permanent';
+                const statusText = user.status === 'expired' ? 'Expired' : 
+                                  user.expiresAt ? expiresIn : 'Permanent';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td><span class="badge badge-${capitalizeRole(user.role)}">${capitalizeRole(user.role)}</span></td>
+                    <td>${user.expiresAt ? new Date(user.expiresAt).toLocaleDateString() : 'Permanent'}</td>
+                    <td><span class="badge ${status}">${statusText}</span></td>
+                    <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td>
+${user.id !== currentUser.id && canDeleteUser(user) ? `
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" 
+                                onclick="showDeleteModal('user', '${user.id}', '${user.username}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        ` : '<span style="color: var(--gray); font-size: 0.9rem;">Current user</span>'}
+                    </td>
+                `;
+                usersBody.appendChild(row);
+            });
+        }
+
+function capitalizeRole(role) {
+    if (!role) return '';
+
+    const roleLabels = {
+        owner: "Owner",
+        admin: "Admin",
+        reseller: "Reseller",
+        mod: "Moderator"
+    };
+
+    return roleLabels[role.toLowerCase()] || 
+           role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+}
+
+function loadProfile() {
+    document.getElementById('profileUsername').textContent = currentUser.username;
+    document.getElementById('profileRole').textContent = capitalizeRole(currentUser.role);
+    document.getElementById('profileRole').className = `badge badge-${currentUser.role}`;
+    
+    const expiresIn = formatTimeRemaining(currentUser.expiresAt);
+    const status = currentUser.status === 'expired' ? 'badge-expired' : 
+                  currentUser.expiresAt ? 'badge-warning' : 'badge-permanent';
+    const statusText = currentUser.status === 'expired' ? 'Expired' : 
+                      currentUser.expiresAt ? expiresIn : 'Permanent';
+    
+    document.getElementById('profileStatus').className = `badge ${status}`;
+    document.getElementById('profileStatus').textContent = statusText;
+    document.getElementById('profileExpiry').textContent = currentUser.expiresAt ? 
+        new Date(currentUser.expiresAt).toLocaleDateString() : 'Never';
+    document.getElementById('telegramIdInput').value = currentUser.telegramId || '';
+}
+        
+function loadPage(pageName) {
+    if (!currentUser) return;
+
+    if (pageName === 'users' && currentUser.role === 'reseller') {
+        showNotification('Akses ditolak', 'error');
+        pageName = 'dashboard';
+    }
+    
+    document.querySelectorAll('.page-content').forEach(p => {
+        p.classList.remove('active');
+    });
+    
+    document.querySelectorAll('.bottom-item').forEach(t => {
+        t.classList.remove('active');
+    });
+
+    const pageEl = document.getElementById(pageName + 'Page');
+    if (!pageEl) {
+        console.error('Page tidak ditemukan:', pageName);
+        return;
+    }
+
+    pageEl.classList.add('active');
+
+    const activeTab = document.querySelector(`.bottom-item[data-page="${pageName}"]`);
+    if (activeTab) activeTab.classList.add('active');
+
+    if (pageName === 'dashboard') loadDashboard();
+    if (pageName === 'tokens') loadTokens();
+    if (pageName === 'users') loadUsers();
+    if (pageName === 'profile') loadProfile();
+}
+        
+        // ==================== DELETE MODAL HANDLING ====================
+        let deleteType = '';
+        let deleteId = '';
+        
+        function showDeleteModal(type, id, name) {
+            deleteType = type;
+            deleteId = id;
+            
+            const message = type === 'user' 
+                ? `Are you sure you want to delete user <strong>${name}</strong>? This action cannot be undone.`
+                : `Are you sure you want to delete token <strong>${name}</strong>? This action cannot be undone.`;
+            
+            document.getElementById('deleteMessage').innerHTML = message;
+            showModal('deleteModal');
+        }
+        
+        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+            if (deleteType === 'user') {
+                // Check if trying to delete self
+                if (deleteId === currentUser.id) {
+                    showNotification('Cannot delete your own account', 'error');
+                    closeModal('deleteModal');
+                    return;
+                }
+                
+                db.deleteUser(deleteId);
+                showNotification('Users Deleted Successfully', 'success');
+                
+                // Reload current page
+                const activePage = document.querySelector('.page-content.active').id.replace('Page', '');
+                loadPage(activePage);
+                
+            } else if (deleteType === 'token') {
+                db.deleteToken(deleteId);
+                showNotification('Token Deleted Successfully', 'success');
+                
+                // Reload current page
+                const activePage = document.querySelector('.page-content.active').id.replace('Page', '');
+                loadPage(activePage);
+            }
+            
+            closeModal('deleteModal');
+        });
+        
+        // ==================== EVENT HANDLERS ====================
+const db = new Database();
+let currentUser = db.getCurrentUser();
+
+function updateWelcomeText() {
+    const el = document.getElementById('welcomeText');
+    if (!el) return;
+
+    const user = db.getCurrentUser();
+    const lastRole = localStorage.getItem('lastRole');
+    const isLoggedOut = localStorage.getItem('isLoggedOut');
+
+    if (user && user.role) {
+        el.textContent = `Welcome - ${capitalizeRole(user.role)}`;
+    } else if (isLoggedOut === 'true' && lastRole) {
+        el.textContent = `Welcome - ${capitalizeRole(lastRole)}`;
+    } else {
+        el.textContent = 'Welcome - Someone';
+    }
+}
+
+// Login
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    isLoggingIn = true;
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const messageDiv = document.getElementById('loginMessage');
+
+    const user = db.getUserByUsername(username);
+
+    if (!user || user.password !== password) {
+        messageDiv.innerHTML =
+            '<p style="color:#dc2626;"><i class="fas fa-exclamation-circle"></i> - Invalid Username or Password.</p>';
+        return;
+    }
+
+    if (user.status === 'expired') {
+        messageDiv.innerHTML =
+            '<p style="color:#d97706;"><i class="fas fa-exclamation-triangle"></i> Account has expired</p>';
+        return;
+    }
+
+    // ✅ LOGIN SUCCESS
+    currentUser = user;
+    currentUser.sessionId = Date.now(); // 🔥 bikin session baru
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    db.updateUser(currentUser.username, currentUser);
+    db.setCurrentUser(user);
+    localStorage.removeItem('isLoggedOut');
+
+    isLoggingIn = false;
+
+    updateWelcomeText();
+    updateHeaderUsername();
+    updateNavigation();
+    loadProfile();
+
+    messageDiv.innerHTML =
+        '<p style="color:#16a34a;"><i class="fas fa-check-circle"></i> - Log-in Successfully!</p>';
+
+    setTimeout(() => {
+        // 🔥 SHOW DASHBOARD
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+
+        // 🔥 FIX BODY CLASS (INI PALING PENTING)
+        document.body.classList.remove("login-active");
+        document.body.classList.add("dashboard-active");
+
+        // 🔥 LOAD DATA
+        loadDashboard();
+        loadPage('dashboardPage'); // ✅ FIX ID
+
+        // 🔥 DRAWER INFO
+        document.getElementById("drawerUsername").textContent = currentUser.username;
+        document.getElementById("drawerRole").textContent = currentUser.role;
+
+    }, 300);
+});
+        
+function logoutUser() {
+    localStorage.setItem('lastRole', currentUser?.role || '');
+    localStorage.setItem('isLoggedOut', 'true');
+
+    db.clearCurrentUser();
+    currentUser = null;
+
+    updateWelcomeText();
+
+    const dashboard = document.getElementById('dashboard');
+    const loginPage = document.getElementById('loginPage');
+
+    // hide dashboard
+    dashboard.style.display = 'none';
+
+    // show login
+    loginPage.style.display = 'flex';
+
+    // reset class
+    document.body.classList.add("login-active");
+    document.body.classList.remove("dashboard-active");
+
+    // reset scroll
+    window.scrollTo(0, 0);
+
+    // tutup drawer (amanin kalau null)
+    document.getElementById("drawer")?.classList.remove("active");
+    document.getElementById("overlay")?.classList.remove("active");
+
+    // reset form
+    document.getElementById('loginForm')?.reset();
+    document.getElementById('loginMessage').innerHTML = '';
+}
+        
+        // Navigation tabs
+        document.querySelectorAll('.bottom-item').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const page = tab.dataset.page;
+                
+                document.querySelectorAll('.bottom-item').forEach(t => {
+                t.classList.remove('active');
+               });
+               
+                tab.classList.add('active');
+                loadPage(page);
+            });
+        });
+        
+        // Add token form
+        document.getElementById('addTokenForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('tokenInput').value;
+            const botName = document.getElementById('botNameInput').value;
+            
+            if (!token || !botName) {
+                showNotification('Please fill all fields', 'error');
+                return;
+            }
+           
+            
+            const tokenData = {
+                token: token,
+                botName: botName,
+                createdBy: currentUser.id
+            };
+            
+            db.addToken(tokenData);
+            
+            showNotification('Token Added Successfully', 'success');
+            closeModal('addTokenModal');
+            document.getElementById('addTokenForm').reset();
+            
+            // Reload current page
+            const activePage = document.querySelector('.page-content.active').id.replace('Page', '');
+            loadPage(activePage);
+        });
+        
+        // Add user form
+        document.getElementById('addUserForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const role = document.getElementById('newRole').value;
+            const expiryType = document.getElementById('expiryType').value;
+            const telegramId = document.getElementById('newTelegramId').value;
+            
+if (currentUser.role === 'admin' && role !== 'reseller') {
+    showNotification('Admin hanya bisa membuat Reseller', 'error');
+    return;
+}
+
+if (currentUser.role === 'mod' && !['admin','reseller'].includes(role)) {
+    showNotification('Moderator hanya bisa membuat Admin atau Reseller', 'error');
+    return;
+}
+            
+            if (currentUser.role === 'admin' && role === 'owner') {
+                showNotification('Admin tidak bisa membuat Owner', 'error');
+                return;
+            }
+            
+            // Check if username exists
+            if (db.getUserByUsername(username)) {
+                showNotification('Username already exists', 'error');
+                return;
+            }
+            
+            const expiresAt = calculateExpiryDate(expiryType);
+            
+            const userData = {
+                username: username,
+                password: password,
+                role: role,
+                avatar: "https://files.catbox.moe/wt0u2y.jpeg",
+                telegramId: telegramId || null,
+                createdBy: currentUser.id,
+                expiresAt: expiresAt ? expiresAt.toISOString() : null
+            };
+            
+            db.addUser(userData);
+            
+            showNotification(`Users ${username} Created Successfully`, 'success');
+            closeModal('addUserModal');
+            document.getElementById('addUserForm').reset();
+            
+            loadUsers();
+        });
+        
+        // Link Telegram form
+        document.getElementById('linkTelegramForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const telegramId = document.getElementById('telegramIdInput').value;
+            
+            db.updateUser(currentUser.id, { telegramId: telegramId || null });
+            currentUser.telegramId = telegramId || null;
+            db.setCurrentUser(currentUser);
+            
+            showNotification('Telegram ID updated', 'success');
+            loadProfile();
+        });
+        
+        // Check if already logged in
+if (currentUser) {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadDashboard();
+    
+    loadPage('dashboard');
+}
+        // ==================== VIDEO LOADING HANDLER ====================
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('loginVideo');
+    const videoContainer = document.querySelector('.video-bg-container');
+    
+    if (video) {
+        // Force preload dan play
+        video.load();
+        video.play().catch(function(error) {
+            console.log('Video autoplay failed:', error);
+            // Fallback ke image
+            video.classList.add('error');
+            
+            // Coba play lagi dengan user interaction
+            document.addEventListener('click', function playVideoOnce() {
+                video.play().then(() => {
+                    video.classList.remove('error');
+                }).catch(() => {
+                    // Tetap pake fallback image
+                });
+                document.removeEventListener('click', playVideoOnce);
+            });
+        });
+        
+        // Handle loading state
+        video.addEventListener('loadeddata', function() {
+            videoContainer.classList.remove('loading');
+        });
+        
+        video.addEventListener('error', function() {
+            console.log('Video failed to load');
+            video.classList.add('error');
+            videoContainer.classList.remove('loading');
+        });
+        
+        // Add loading state awal
+        videoContainer.classList.add('loading');
+    }
+});
+
+function resetUsers() {
+    if (!confirm('Reset semua user ke default owner?')) return;
+
+    localStorage.removeItem('botManagerUsers');
+    localStorage.removeItem('botManagerCurrentUser');
+    localStorage.removeItem('lastRole');
+    localStorage.removeItem('isLoggedOut');
+
+    location.reload();
+}
+
+function updateAccountSummary() {
+    if (!currentUser) return;
+
+    document.getElementById('summaryUsername').textContent = currentUser.username;
+    document.getElementById('summaryRole').textContent = capitalizeRole(currentUser.role);
+    document.getElementById('summaryStatus').textContent =
+        currentUser.status === 'expired' ? 'Expired' : 'Active';
+
+    document.getElementById('summaryExpired').textContent =
+        currentUser.expiresAt
+            ? new Date(currentUser.expiresAt).toLocaleDateString()
+            : 'Permanent';
+
+    const tokens = db.getTokens().filter(t =>
+        currentUser.role === 'owner' || currentUser.role === 'admin'
+            ? true
+            : t.createdBy === currentUser.id || t.assignedTo === currentUser.id
+    );
+    document.getElementById('summaryTokens').textContent = tokens.length;
+
+    // EDUCATION (role-based)
+    const edu = {
+        owner: 'You have full access: manage users, roles, and all tokens.',
+        admin: 'You can manage resellers and tokens. Owner access is restricted.',
+        mod: 'You can create Admin & Reseller accounts you own.',
+        reseller: 'You can only manage your own tokens. User management is disabled.'
+    };
+
+    const eduEl = document.getElementById('summaryEducation');
+if (eduEl) {
+    eduEl.innerHTML =
+        `<i class="fas fa-info-circle"></i> ${edu[currentUser.role] || ''}`;
+}
+}
+
+function openDrawer() {
+    const drawer = document.getElementById("drawer");
+    const overlay = document.getElementById("overlay");
+
+    drawer.classList.toggle("active");
+    overlay.classList.toggle("active");
+}
+
+function closeDrawer() {
+    document.getElementById("drawer").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+}
+
+function openChangePassword() {
+    alert("Fitur Change Password");
+}
+
+function openCustomerService() {
+    window.open("https://t.me/rizzxtzyy", "_blank");
+}
+
+document.getElementById("changePasswordForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const oldPass = document.getElementById("oldPassword").value;
+    const newPass = document.getElementById("newPassword").value;
+    const confirmPass = document.getElementById("confirmPassword").value;
+    const msg = document.getElementById("changePasswordMsg");
+
+    if (!currentUser) return;
+
+    // cek password lama
+    if (oldPass !== currentUser.password) {
+        msg.innerHTML = '<p style="color:red;">Old password salah</p>';
+        return;
+    }
+
+    // cek konfirmasi
+    if (newPass !== confirmPass) {
+        msg.innerHTML = '<p style="color:orange;">Password tidak sama</p>';
+        return;
+    }
+
+    // update password
+    currentUser.password = newPass;
+    currentUser.sessionId = Date.now(); // 🔥 reset semua login lama
+    db.updateUser(currentUser.username, currentUser);
+
+    // simpan ke database (sesuaikan dengan db lu)
+    db.updateUser(currentUser.username, currentUser);
+
+    msg.innerHTML = '<p style="color:lime;">Password berhasil diubah</p>';
+
+    setTimeout(() => {
+        closeModal('changePasswordModal');
+    }, 1000);
+});
+
+function handleChangePassword() {
+    closeDrawer(); // 🔥 tutup drawer dulu
+    
+    currentUser.sessionId = Date.now();
+    db.updateUser(currentUser.username, currentUser);
+
+    setTimeout(() => {
+        showModal('changePasswordModal'); // 🔥 baru buka modal
+    }, 200); // kasih delay biar smooth
+}
+
+// ==================== TOGGLE PASSWORD VISIBILITY ====================
+document.addEventListener("click", function (e) {
+    const btn = e.target.closest("#togglePassword");
+    if (!btn) return;
+
+    const passwordInput = document.getElementById("password");
+    const icon = btn.querySelector("i");
+
+    if (!passwordInput) return;
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        if (icon) {
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }
+    } else {
+        passwordInput.type = "password";
+        if (icon) {
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+});
+    </script>
+</body>
+</html>
