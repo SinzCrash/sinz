@@ -23,6 +23,18 @@
       "active": true,
       "check_count": 0,
       "last_check": null
+    },
+    {
+      "id": "1ce3326f584d233f",
+      "token_hash": "1ce3326f584d233f800ebdbb832ba3e69855499dc2d8f09b3e130ac362da0860",
+      "owner": "8512630850",
+      "note": "Added by sin#killed @pxsinz [8512630850] (creator) via Telegram",
+      "plan": "premium",
+      "created_at": "2026-10-12T07:13:34.775Z",
+      "expired_at": null,
+      "active": true,
+      "check_count": 0,
+      "last_check": null
     }
   ]
 }
