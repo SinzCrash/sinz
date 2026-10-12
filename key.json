@@ -1,6 +1,21 @@
 {
   "version": "1.0",
   "algo": "ECDSA_P256_SHA256",
-  "total": 0,
-  "entries": []
+  "total": 1,
+  "entries": [
+    {
+      "token_hash": "f67900a89e8969362bf56918e4835953c3da8bd12dbb5667282a089c21c87bbc",
+      "payload": {
+        "token_hash": "f67900a89e8969362bf56918e4835953c3da8bd12dbb5667282a089c21c87bbc",
+        "issued": 1791784495903,
+        "nonce": "f5af840075a2807a979a765f04d1ece3"
+      },
+      "payload_hash": "db22243bc46afe8e99fd1fb55a6fd491a8586e3890dbd57f9e89a42a62c73920",
+      "signature": "Nvdhe5Iyw3LhN9hDTNz4ISoxa1vicgfNEO0VVqNmPKAUJnfG5rhC/280AiP+U5ZiYE/CNtAoEqQ90WlRgKlCBQ==",
+      "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEgRrMDFHTL5xFDMwXcog9FYLg2Ox\ng/fK+VjB7UDD+qaHIdRkxCnAsaOqDYDA09Y+S2ofcCSKp4EgqdyE+crmBg==\n-----END PUBLIC KEY-----\n",
+      "public_key_hash": "cf9e3ab0b053be983c6685dea6a339a5bf7c4b74f23e7e45bbb64d624f655599",
+      "created_at": "2026-10-12T05:54:55.905Z"
+    }
+  ],
+  "updated_at": "2026-10-12T05:54:55.905Z"
 }
